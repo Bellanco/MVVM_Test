@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Test</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="title_label">Test</string>
+    <string name="details">Details</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="label_location">Location: %s</string>
+    <string name="label_share_url">Share Url</string>
+    <string name="label_error_request">An error has occurred on our servers.</string>
+    <string name="label_shared">Share</string>
+    <string name="label_image">Image</string>
+    <string name="label_name">Name</string>
+    <string name="label_male">Male</string>
+    <string name="label_female">Female</string>
+    <string name="label_unknown">Unknown</string>
+    <string name="filter">Filter</string>
+</resources>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextView">
+        <item name="fontFamily">sans-serif</item>
+    </style>
+
+    <style name="TextView.Title">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextView.Section">
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="TextView.Description">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="FloatingButton">
+        <item name="backgroundTint">@color/red</item>
+        <item name="tint">@color/white</item>
+    </style>
+
+    <style name="Button">
+        <item name="textAllCaps">false</item>
+    </style>
+
+</resources>

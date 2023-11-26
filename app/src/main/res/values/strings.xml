@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Test</string>
+    <string name="action_settings">Ajustes</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="title_label">Prueba</string>
+    <string name="details">Detalles</string>
+    <string name="next">Siguiente</string>
+    <string name="previous">Anterior</string>
+
+    <string name="label_location">Localización: %s</string>
+    <string name="label_share_url">Compartir Url</string>
+    <string name="label_error_request">Se ha producido un error en nuestros servidores.</string>
+    <string name="label_shared">Compartir</string>
+    <string name="label_image">Imagen</string>
+    <string name="label_name">Nombre</string>
+    <string name="label_male">Hombre</string>
+    <string name="label_female">Mujer</string>
+    <string name="label_unknown">Desconocido</string>
+    <string name="filter">Filtrar</string>
+</resources>
