@@ -8,7 +8,7 @@ import androidx.annotation.Keep
 @Parcelize
 data class CharactersResponseModel(
     val info: Info = Info(),
-    val results: MutableList<Result> = mutableListOf()
+    val results: List<Result> = listOf()
 ) : Parcelable
 
 @Keep

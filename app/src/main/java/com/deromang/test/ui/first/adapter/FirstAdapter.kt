@@ -22,7 +22,7 @@ class FirstAdapter(
 
     override fun getItemCount(): Int = modelList.size
 
-    fun addAll(models: MutableList<Result>){
+    fun addAll(models: List<Result>){
         modelList.clear()
         modelList.addAll(models)
         notifyDataSetChanged()
