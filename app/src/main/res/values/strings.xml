@@ -16,6 +16,6 @@
     <string name="label_name">Nombre</string>
     <string name="label_male">Hombre</string>
     <string name="label_female">Mujer</string>
-    <string name="label_unknown">Desconocido</string>
+    <string name="label_unknown">Todos</string>
     <string name="filter">Filtrar</string>
 </resources>
