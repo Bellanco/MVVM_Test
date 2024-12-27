@@ -13,6 +13,7 @@ import com.deromang.test.data.db.FavoriteDAO
 import com.deromang.test.di.AppDatabase
 import com.deromang.test.model.DetailResponseModel
 import com.deromang.test.model.Favorite
+import com.deromang.test.model.FavoriteResult
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,8 +25,8 @@ class SecondViewModel: ViewModel() {
     private val _getDetailResult = MutableLiveData<Result<DetailResponseModel>>()
     val getDetailResult: LiveData<Result<DetailResponseModel>> = _getDetailResult
 
-    private val _isFavoriteResult = MutableLiveData<Result<Boolean>>()
-    val isFavoriteResult: LiveData<Result<Boolean>> = _isFavoriteResult
+    private val _isFavoriteResult = MutableLiveData<Result<FavoriteResult>>()
+    val isFavoriteResult: LiveData<Result<FavoriteResult>> = _isFavoriteResult
 
     private val exception = CoroutineExceptionHandler { _, _ ->
         _getDetailResult.value = Result(error = R.string.label_error_request)
@@ -35,7 +36,7 @@ class SecondViewModel: ViewModel() {
 
     init {
         App.getContext()?.let { applicationContext ->
-            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "app_database").build()
+            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "app_database").fallbackToDestructiveMigration().build()
             favoriteDao = db.favoriteDao()
         }
     }
@@ -61,8 +62,9 @@ class SecondViewModel: ViewModel() {
     fun addFavorite(id: String) {
         viewModelScope.launch {
             try {
-                val favorite = Favorite(id)
+                val favorite = Favorite(id, System.currentTimeMillis())
                 favoriteDao?.insertFavorite(favorite)
+                _isFavoriteResult.postValue(Result(success = FavoriteResult(id = favorite.id, dateAdded = favorite.dateAdded)))
             } catch (e: Exception) {
                 Timber.e(e)
             }
@@ -72,8 +74,8 @@ class SecondViewModel: ViewModel() {
     fun removeFavorite(id: String) {
         viewModelScope.launch {
             try {
-                val favorite = Favorite(id)
-                favoriteDao?.deleteFavorite(favorite)
+                favoriteDao?.deleteFavoriteById(id)
+                _isFavoriteResult.postValue(Result(success = FavoriteResult()))
             } catch (e: Exception) {
                 Timber.e(e)
             }
@@ -85,9 +87,9 @@ class SecondViewModel: ViewModel() {
             try {
                 val favorite = favoriteDao?.getFavoriteById(id)
                 if (favorite != null) {
-                    _isFavoriteResult.postValue(Result(success = true))
+                    _isFavoriteResult.postValue(Result(success = FavoriteResult(id = favorite.id, dateAdded = favorite.dateAdded)))
                 } else {
-                    _isFavoriteResult.postValue(Result(success = false))
+                    _isFavoriteResult.postValue(Result(success = FavoriteResult()))
                 }
             } catch (e: Exception) {
                 Timber.e(e)

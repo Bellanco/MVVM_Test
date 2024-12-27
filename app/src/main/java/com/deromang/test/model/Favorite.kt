@@ -6,5 +6,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "favorites")
 data class Favorite(
     @PrimaryKey
-    val id: String // El ID será único para cada elemento favorito
+    val id: String,
+    val dateAdded: Long
 )

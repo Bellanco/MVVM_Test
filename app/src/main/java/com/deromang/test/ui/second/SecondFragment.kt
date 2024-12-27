@@ -11,8 +11,12 @@ import androidx.navigation.fragment.navArgs
 import com.deromang.test.R
 import com.deromang.test.databinding.SecondFragmentBinding
 import com.deromang.test.model.DetailResponseModel
+import com.deromang.test.model.FavoriteResult
 import com.deromang.test.model.ListResponseModel
 import com.deromang.test.util.setImageUrl
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class SecondFragment : Fragment() {
 
@@ -55,8 +59,8 @@ class SecondFragment : Fragment() {
 
         viewModel.isFavoriteResult.observe(viewLifecycleOwner) { result ->
 
-            result.success?.let { isFavorite ->
-                setupDesignFavorite(binding, isFavorite)
+            result.success?.let { favoriteModel ->
+                setupDesignFavorite(binding, favoriteModel)
             }
 
             result.error?.let { error ->
@@ -73,12 +77,14 @@ class SecondFragment : Fragment() {
     private fun setupView(binding: SecondFragmentBinding, model: ListResponseModel) {
         binding.tvName.text = model.district
 
-        binding.tvState.text = model.neighborhood
+        binding.tvType.text = model.neighborhood
+
+        binding.tvLocation.text = model.address
 
         model.thumbnail?.let {
             binding.ivDetail.setImageUrl(requireContext(), it)
         }
-        
+
         binding.fabFavorite.setOnClickListener {
             model.isFavorite = !model.isFavorite
 
@@ -90,16 +96,31 @@ class SecondFragment : Fragment() {
                 }
             }
 
-            setupDesignFavorite(binding, model.isFavorite)
         }
     }
 
-    private fun setupDesignFavorite(binding: SecondFragmentBinding, isFavorite: Boolean) {
-
-        binding.fabFavorite.setImageResource(
-            if (isFavorite) R.drawable.ic_favorite_on else R.drawable.ic_add
-        )
+    private fun setupDesignFavorite(binding: SecondFragmentBinding, model: FavoriteResult) {
+        model.id?.let {
+            binding.fabFavorite.setImageResource(R.drawable.ic_favorite_on)
+            model.dateAdded?.let { date ->
+                updateDate(binding, date)
+            }
+        } ?: run {
+            binding.fabFavorite.setImageResource(R.drawable.ic_add)
+            binding.tvDateAdded.visibility = View.GONE
+        }
         binding.fabFavorite.invalidate()
+    }
+
+    private fun updateDate(binding: SecondFragmentBinding, dateAdded: Long) {
+        binding.tvDateAdded.visibility = View.VISIBLE
+        binding.tvDateAdded.text = formatDate(dateAdded)
+    }
+
+    private fun formatDate(dateInMillis: Long): String {
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+        val date = Date(dateInMillis)
+        return dateFormat.format(date)
     }
 
 }
