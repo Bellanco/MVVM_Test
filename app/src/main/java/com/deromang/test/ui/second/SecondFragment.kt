@@ -1,19 +1,22 @@
 package com.deromang.test.ui.second
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import com.deromang.test.R
 import com.deromang.test.databinding.SecondFragmentBinding
+import com.deromang.test.databinding.TabDotsBinding
 import com.deromang.test.model.DetailResponseModel
 import com.deromang.test.model.FavoriteResult
 import com.deromang.test.model.ListResponseModel
-import com.deromang.test.util.setImageUrl
+import com.deromang.test.ui.second.adapter.SecondAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -39,9 +42,8 @@ class SecondFragment : Fragment() {
             viewModel.getDetail()
 
             model.propertyCode?.let {
-                viewModel.isFavorite(it)
+                viewModel.isFavorite(it, model)
             }
-
         }
 
         return binding.root
@@ -68,10 +70,28 @@ class SecondFragment : Fragment() {
             }
         }
 
+        viewModel.favoriteResult.observe(viewLifecycleOwner) { result ->
+
+            result.success?.let { favoriteModel ->
+                setupDesignFavorite(binding, favoriteModel)
+            }
+
+            result.error?.let { error ->
+                Toast.makeText(requireContext(), getString(error), Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
     private fun updateDetail(binding: SecondFragmentBinding, model: DetailResponseModel) {
+        val adapter = SecondAdapter(model.multimedia?.images)
+        binding.viewPager.adapter = adapter
 
+        // Vincular TabLayout con ViewPager2
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, _ ->
+            val tabBinding = TabDotsBinding.inflate(LayoutInflater.from(requireContext()))
+            tab.customView = tabBinding.root
+        }.attach()
     }
 
     private fun setupView(binding: SecondFragmentBinding, model: ListResponseModel) {
@@ -80,10 +100,6 @@ class SecondFragment : Fragment() {
         binding.tvType.text = model.neighborhood
 
         binding.tvLocation.text = model.address
-
-        model.thumbnail?.let {
-            binding.ivDetail.setImageUrl(requireContext(), it)
-        }
 
         binding.fabFavorite.setOnClickListener {
             model.isFavorite = !model.isFavorite
@@ -100,16 +116,32 @@ class SecondFragment : Fragment() {
     }
 
     private fun setupDesignFavorite(binding: SecondFragmentBinding, model: FavoriteResult) {
+
+        val currentRotation = binding.fabFavorite.rotation
+
+        val rotateAnimator = model.id?.let {
+            ObjectAnimator.ofFloat(binding.fabFavorite, "rotation", currentRotation, 45f).apply {
+                duration = 300
+            }
+        } ?: run {
+            ObjectAnimator.ofFloat(binding.fabFavorite, "rotation", currentRotation, 0f).apply {
+                duration = 300
+            }
+        }
+        
+        rotateAnimator.start()
+
         model.id?.let {
-            binding.fabFavorite.setImageResource(R.drawable.ic_favorite_on)
+            rotateAnimator.start()
+            binding.fabFavorite.backgroundTintList = (ContextCompat.getColorStateList(requireContext(),android.R.color.holo_red_dark))
             model.dateAdded?.let { date ->
                 updateDate(binding, date)
             }
         } ?: run {
-            binding.fabFavorite.setImageResource(R.drawable.ic_add)
+            rotateAnimator.start()
+            binding.fabFavorite.backgroundTintList = (ContextCompat.getColorStateList(requireContext(),android.R.color.holo_orange_dark))
             binding.tvDateAdded.visibility = View.GONE
         }
-        binding.fabFavorite.invalidate()
     }
 
     private fun updateDate(binding: SecondFragmentBinding, dateAdded: Long) {

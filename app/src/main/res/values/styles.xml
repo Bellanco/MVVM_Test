@@ -20,7 +20,7 @@
     </style>
 
     <style name="FloatingButton">
-        <item name="backgroundTint">@color/red</item>
+        <item name="backgroundTint">@android:color/holo_orange_dark</item>
         <item name="tint">@color/white</item>
     </style>
 
