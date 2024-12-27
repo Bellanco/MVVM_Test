@@ -87,8 +87,8 @@ class FirstFragment : Fragment() {
     }
 
     private fun updateCharacters(binding: FragmentFirstBinding, model: CharactersResponseModel) {
-        (binding.rvMain.adapter as FirstAdapter).apply {
-            addAll(model.results.distinct())
+        (binding.rvMain.adapter as? FirstAdapter)?.apply {
+            addAll(model.results)
         }
     }
 
