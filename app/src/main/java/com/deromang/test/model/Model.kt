@@ -1,120 +1,84 @@
 package com.deromang.test.model
 
 import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 import androidx.annotation.Keep
+import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
-data class CharactersResponseModel(
-    val info: Info = Info(),
-    val results: List<Result> = listOf()
+data class ListResponseModel(
+    val address: String?,
+    val bathrooms: Int?,
+    val country: String?,
+    val description: String?,
+    val district: String?,
+    val exterior: Boolean?,
+    val features: Features?,
+    val floor: String?,
+    val latitude: Double?,
+    val longitude: Double?,
+    val multimedia: Multimedia?,
+    val municipality: String?,
+    val neighborhood: String?,
+    val operation: String?,
+    val parkingSpace: ParkingSpace?,
+    val price: Double?,
+    val priceInfo: PriceInfoModel?,
+    val propertyCode: String?,
+    val propertyType: String?,
+    val province: String?,
+    val rooms: Int?,
+    val size: Double?,
+    val thumbnail: String?,
+    var isFavorite: Boolean = false
 ) : Parcelable
 
 @Keep
 @Parcelize
-data class Info(
-    val page: Int = 0,
-    val results: Int = 0,
-    val seed: String = "",
-    val version: String = ""
+data class Features(
+    val hasAirConditioning: Boolean?,
+    val hasBoxRoom: Boolean?,
+    val hasGarden: Boolean?,
+    val hasSwimmingPool: Boolean?,
+    val hasTerrace: Boolean?
 ) : Parcelable
 
 @Keep
 @Parcelize
-data class Result(
-    val cell: String = "",
-    val dob: Dob = Dob(),
-    val email: String = "",
-    val gender: String = "",
-    val id: Id = Id(),
-    val location: Location = Location(),
-    val login: Login = Login(),
-    val name: Name = Name(),
-    val nat: String = "",
-    val phone: String = "",
-    val picture: Picture = Picture(),
-    val registered: Registered = Registered()
+data class Multimedia(
+    val images: List<ImageModel?>?
 ) : Parcelable
 
 @Keep
 @Parcelize
-data class Dob(
-    val age: Int = 0,
-    val date: String = ""
+data class ParkingSpace(
+    val hasParkingSpace: Boolean?,
+    val isParkingSpaceIncludedInPrice: Boolean?
 ) : Parcelable
 
 @Keep
 @Parcelize
-data class Id(
-    val name: String = "",
-    val value: String = ""
+data class PriceInfoModel(
+    val price: Price?
 ) : Parcelable
 
 @Keep
 @Parcelize
-data class Location(
-    val city: String = "",
-    val coordinates: Coordinates = Coordinates(),
-    val country: String = "",
-    val postcode: String = "",
-    val state: String = "",
-    val street: Street = Street(),
-    val timezone: Timezone = Timezone()
+data class ImageModel(
+    val tag: String?,
+    val url: String?
 ) : Parcelable
 
 @Keep
 @Parcelize
-data class Login(
-    val md5: String = "",
-    val password: String = "",
-    val salt: String = "",
-    val sha1: String = "",
-    val sha256: String = "",
-    val username: String = "",
-    val uuid: String = ""
+data class Price(
+    val amount: Double?,
+    val currencySuffix: String?
 ) : Parcelable
 
-@Keep
-@Parcelize
-data class Name(
-    val first: String = "",
-    val last: String = "",
-    val title: String = ""
-) : Parcelable
 
-@Keep
-@Parcelize
-data class Picture(
-    val large: String = "",
-    val medium: String = "",
-    val thumbnail: String = ""
-) : Parcelable
 
-@Keep
-@Parcelize
-data class Registered(
-    val age: Int = 0,
-    val date: String = ""
-) : Parcelable
 
-@Keep
-@Parcelize
-data class Coordinates(
-    val latitude: String = "",
-    val longitude: String = ""
-) : Parcelable
 
-@Keep
-@Parcelize
-data class Street(
-    val name: String = "",
-    val number: Int = 0
-) : Parcelable
 
-@Keep
-@Parcelize
-data class Timezone(
-    val description: String = "",
-    val offset: String = ""
-) : Parcelable
+

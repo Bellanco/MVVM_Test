@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.deromang.test.databinding.RowMainBinding
-import com.deromang.test.model.Result
+import com.deromang.test.model.ListResponseModel
 import com.deromang.test.util.setImageUrl
 
 class FirstViewHolder private constructor(
@@ -13,13 +13,15 @@ class FirstViewHolder private constructor(
     private val listener: OnItemClickListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bindView(model: Result, context: Context) {
+    fun bindView(model: ListResponseModel, context: Context) {
 
-        binding.tvName.text = """${model.name.title} ${model.name.title} ${model.name.last}"""
+        binding.tvName.text = model.district
 
-        binding.tvState.text = model.location.state
+        binding.tvState.text = model.neighborhood
 
-        binding.ivMain.setImageUrl(context, model.picture.large)
+        model.thumbnail?.let {
+            binding.ivMain.setImageUrl(context, it)
+        }
 
         binding.clContainer.setOnClickListener {
             listener.onClick(model)
@@ -37,6 +39,6 @@ class FirstViewHolder private constructor(
 
 
     interface OnItemClickListener {
-        fun onClick(model: Result)
+        fun onClick(model: ListResponseModel)
     }
 }

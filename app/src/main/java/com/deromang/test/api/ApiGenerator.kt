@@ -10,7 +10,7 @@ object ApiGenerator {
 
     private const val TIMEOUT: Long = 30
 
-    private const val BASE_URL: String = " https://randomuser.me/"
+    private const val BASE_URL: String = " https://idealista.github.io/android-challenge/"
 
     fun createService(): ApiService =
         createService(BASE_URL)

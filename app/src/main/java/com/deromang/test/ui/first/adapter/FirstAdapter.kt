@@ -3,7 +3,7 @@ package com.deromang.test.ui.first.adapter
 import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.deromang.test.model.Result
+import com.deromang.test.model.ListResponseModel
 
 class FirstAdapter(
     private val context: Context,
@@ -11,7 +11,7 @@ class FirstAdapter(
 ) :
     RecyclerView.Adapter<FirstViewHolder>() {
 
-    private val modelList: MutableList<Result> = mutableListOf()
+    private val modelList: MutableList<ListResponseModel> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FirstViewHolder =
         FirstViewHolder.from(parent, listener)
@@ -22,7 +22,7 @@ class FirstAdapter(
 
     override fun getItemCount(): Int = modelList.size
 
-    fun addAll(models: List<Result>){
+    fun addAll(models: MutableList<ListResponseModel>){
         modelList.clear()
         modelList.addAll(models)
         notifyDataSetChanged()

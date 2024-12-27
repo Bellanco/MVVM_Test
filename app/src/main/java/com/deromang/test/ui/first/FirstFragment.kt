@@ -10,14 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.deromang.test.R
-import com.deromang.test.data.Constants
 import com.deromang.test.databinding.FragmentFirstBinding
-import com.deromang.test.model.CharactersResponseModel
-import com.deromang.test.model.Result
+import com.deromang.test.model.ListResponseModel
 import com.deromang.test.ui.first.adapter.FirstAdapter
 import com.deromang.test.ui.first.adapter.FirstViewHolder
-import com.deromang.test.util.hideKeyboard
 
 class FirstFragment : Fragment() {
 
@@ -35,43 +31,13 @@ class FirstFragment : Fragment() {
 
         setupAdapterCharacters(binding)
 
-        viewModel.getCharacters()
+        viewModel.getListElements()
 
         return binding.root
     }
 
     private fun setupView(binding: FragmentFirstBinding) {
-
-        binding.fabFilter.setOnClickListener {
-            binding.gpFilter.visibility =
-                if (binding.gpFilter.visibility == View.GONE)
-                    View.VISIBLE
-                else
-                    View.GONE
-        }
-
-        binding.btFilter.setOnClickListener {
-
-            this@FirstFragment.hideKeyboard()
-
-            binding.gpFilter.visibility = View.GONE
-
-            val gender: String? =
-                when (binding.rgState.checkedRadioButtonId) {
-                    R.id.rbMale -> {
-                        Constants.Status.KEY_MALE
-                    }
-                    R.id.rbFemale -> {
-                        Constants.Status.KEY_FEMALE
-                    }
-                    R.id.rbNo -> {
-                        null
-                    }
-                    else -> null
-                }
-
-            viewModel.getCharacters(gender)
-        }
+        binding.fabFilter.visibility = View.GONE
     }
 
     private fun setupObservables(binding: FragmentFirstBinding) {
@@ -86,9 +52,9 @@ class FirstFragment : Fragment() {
         }
     }
 
-    private fun updateCharacters(binding: FragmentFirstBinding, model: CharactersResponseModel) {
+    private fun updateCharacters(binding: FragmentFirstBinding, modelList: MutableList<ListResponseModel>) {
         (binding.rvMain.adapter as? FirstAdapter)?.apply {
-            addAll(model.results)
+            addAll(modelList)
         }
     }
 
@@ -97,7 +63,7 @@ class FirstFragment : Fragment() {
         binding.rvMain.layoutManager = LinearLayoutManager(context)
         val actualityAdapter =
             FirstAdapter(requireContext(), object : FirstViewHolder.OnItemClickListener {
-                override fun onClick(model: Result) {
+                override fun onClick(model: ListResponseModel) {
                     findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment(model))
                 }
             })

@@ -16,7 +16,7 @@
             <argument
                 android:name="model"
                 android:defaultValue="@null"
-                app:argType="com.deromang.test.model.Result"
+                app:argType="com.deromang.test.model.ListResponseModel"
                 app:nullable="true" />
         </action>
     </fragment>
@@ -28,7 +28,7 @@
         <argument
             android:name="model"
             android:defaultValue="@null"
-            app:argType="com.deromang.test.model.Result"
+            app:argType="com.deromang.test.model.ListResponseModel"
             app:nullable="true" />
     </fragment>
 
